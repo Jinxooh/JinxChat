@@ -6,15 +6,16 @@ import {
 } from 'react-router-dom'
 
 import App from './App';
-import { MainRoute } from 'containers/route';
- 
+import { MainRoute, AuthRoute } from 'containers/route';
+
 const Routes = () => {
     return (
         <Router>
             <div>
-                <Route exact path="/" component={App}/>
+                <Route path="/" component={App}/>
                 <Switch>
-                    <Route component={MainRoute}></Route>
+                    <Route exact path='/' component={MainRoute}></Route>
+                    <Route exact path='/auth' component={AuthRoute}></Route>
                 </Switch>
             </div>
         </Router>

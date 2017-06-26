@@ -3,3 +3,10 @@ body {
     margin: 0;
     font-family: 'Noto Sans', sans-serif;
 }
+
+// 마우스로 텍스트 블록지정시 색
+::selection{
+    background: $oc-teal-7;
+    color: white;
+    text-shadow: none;
+}

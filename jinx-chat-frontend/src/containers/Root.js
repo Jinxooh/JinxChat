@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
-import App from 'containers/App';
 import Routes from './Routes';
 
-const Root = ({store}) => {
+const Root = ({store, history}) => {
     return (
-        <Provider store={store}>
+        <Provider store={store} history={history}>
             <Routes/>
         </Provider>
     )
@@ -14,5 +13,6 @@ const Root = ({store}) => {
 
 Root.propTypes = {
     store: PropTypes.object,
+    history: PropTypes.object,
 }
 export default Root;

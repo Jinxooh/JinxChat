@@ -1,0 +1,18 @@
+.auth-button-wrapper{
+    float: right;
+    line-height: 4rem;
+    .auth-button{
+        display: inline-block;
+        position: relative;
+        line-height: 1rem;
+
+        background-color: $oc-gray-5;
+        color: white;
+        padding: 0.5rem;
+        transition: all .5s;
+        border-radius: .5rem;
+        &:hover {
+            background-color: $oc-teal-7;
+        }
+    }
+}

@@ -1,0 +1,11 @@
+.dimmer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin-top: 4rem;
+    width: 100vw;
+    height: 100vh;
+
+    z-index: $z-index-dimmer;
+    background: rgba(0,0,0,0.5); 
+}

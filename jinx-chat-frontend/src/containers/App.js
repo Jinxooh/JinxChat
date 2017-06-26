@@ -6,6 +6,8 @@ import { bindActionCreators } from 'redux';
 
 // load component
 import Header, { BrandLogo, SidebarButton, AuthButton } from 'components/Base/Header/Header';
+import LoginModal, { SocialLoginButton } from 'components/Base/LoginModal/LoginModal';
+
 
 class App extends Component {
 
@@ -18,6 +20,10 @@ class App extends Component {
                     <BrandLogo/>
                     <AuthButton/>
                 </Header>
+                <LoginModal>
+                    <SocialLoginButton types='google'/>
+                    <SocialLoginButton types='facebook'/>
+                </LoginModal>
                 { children }
             </div>
         );

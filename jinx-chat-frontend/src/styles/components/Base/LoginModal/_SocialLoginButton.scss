@@ -1,0 +1,45 @@
+.social-login-button {
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 1.2rem;
+    line-height: 1.2rem;
+    border: 1px solid $oc-gray-3;
+    b{
+        text-transform: capitalize;
+    }
+
+    .exit {
+        color: $oc-gray-3;
+    }
+
+    .icon {
+        position: absolute;
+        left: 4rem;
+        font-size: 2rem; 
+    }
+
+    &.google {
+        background-color: $oc-gray-1;
+        &:hover {
+            background: $oc-gray-2;
+        }
+        &:active {
+            background: $oc-gray-3;
+        }
+    }
+
+    &.facebook {
+        background-color: #3b5998;
+        color: white;
+        &:hover {
+            background: darken(#3b5998, 5%);
+        }
+        &:active {
+            background: darken(#3b5998, 10%);
+        }
+    }
+}
+
+.social-login-button + .social-login-button{
+    margin-top: 1rem;
+}

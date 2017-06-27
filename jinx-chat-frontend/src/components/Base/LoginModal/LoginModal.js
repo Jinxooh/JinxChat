@@ -3,15 +3,41 @@ import Dimmer from 'components/Common/Dimmer';
 import EyeCatchy from 'components/Common/EyeCatchy'; 
 
 class LoginModal extends Component {
+    
+    state = {
+        closing: false
+    }
+    
+    componentDidUpdate(prevProps, prevState) {
+        if(!this.props.visible && prevProps.visible){
+            this.setState({
+                closing: true
+            });
+
+            setTimeout(
+                () => {
+                    this.setState({
+                        closing: false
+                    })
+                }, 700
+            )
+
+        }  
+    }
 
     render() {
-        const { children } = this.props;
+        const { children, visible, onHide } = this.props;
+        const { closing } = this.state;
 
-        return (
+        if(!closing && !visible) return null;
+        const animation = closing ? 'flipOutX' : 'flipInX';
+
+        return (    
             <div>
                 <div className="login-modal-wrapper">
-                    <div className="login-modal">
-                        <div className="exit">x</div>
+                    <EyeCatchy onHide={onHide}>
+                    <div className={`login-modal ${animation}`}>
+                        <div className="exit" onClick={onHide}>x</div>
                         <div className="logo">Jinx's Chat</div>
                         <div className="description">
                             <p>This is description sample</p>
@@ -20,6 +46,7 @@ class LoginModal extends Component {
                         </div>
                         <div className="button-wrapper"> {children} </div>
                     </div>
+                    </EyeCatchy>
                 </div>
                 <Dimmer/>
             </div>

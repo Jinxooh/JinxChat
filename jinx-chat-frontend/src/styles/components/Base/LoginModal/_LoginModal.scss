@@ -51,5 +51,13 @@
             padding: 2rem;
             padding-top: .5rem;
         }
+
+        // setting animation
+        &.flipInX, &.flipOutX{
+            -webkit-animation-duration: .8s;
+            animation-duration: .8s;
+            -webkit-animation-fill-mode: both;
+            animation-fill-mode: both;
+        }
     }
 }

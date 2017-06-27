@@ -9,7 +9,9 @@ const middlewares = [promiseMiddleware()];
 
 const createStoreWithMiddleware = applyMiddleware( ...middlewares)(createStore);
 
+
 const reducer = combineReducers({
+    // state.base <==== 이 base
     base,
 });
 

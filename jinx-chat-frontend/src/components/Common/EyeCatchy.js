@@ -39,10 +39,10 @@ class EyeCatchy extends Component {
     }
 
     render() {
-        const { hidden, children } = this.props;
+        const { children } = this.props;
         const { handleHide } = this;
         return (
-            <Content hidden={hidden} hide={e=>{ handleHide()}}>
+            <Content hide={e=>{ handleHide()}}>
                 {children}
             </Content>
         )

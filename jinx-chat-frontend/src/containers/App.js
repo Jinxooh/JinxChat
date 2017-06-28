@@ -10,23 +10,39 @@ import * as modal from 'redux/modules/base/modal';
 import Header, { BrandLogo, SidebarButton, AuthButton } from 'components/Base/Header/Header';
 import LoginModal, { SocialLoginButton } from 'components/Base/LoginModal/LoginModal';
 import auth from 'helpers/firebase/auth';
+import * as users from 'helpers/firebase/database/users';
 
 class App extends Component {
 
     componentDidMount() {
+        // auth.logout();
+
         const { ModalActions } = this.props;
         
         auth.authStateChanged(
-            (firebaseUser) => {
+            async (firebaseUser) => {
                 if(firebaseUser) {
                     console.log('login', firebaseUser);
-
+             
+                    const test = await users.findUserById(firebaseUser.uid);
+                    console.log(test.val());
+                    await users.createUserData(firebaseUser); 
                     ModalActions.modalClose('login');
                 } else {
                     console.log('no login');
                 }
             }
         )
+    }
+
+    handleAuth = (provider) => {
+        auth[provider]().catch(
+            error => {
+                if(error.code === "auth/account-exists-with-different-credential"){
+                    auth.resolveDuplicate(error);
+                }
+            }
+        );
     }
     
     handleLoginModal = (() => {
@@ -43,7 +59,7 @@ class App extends Component {
 
     render() {
         const { children, status: {modal} } = this.props;
-        const { handleLoginModal } = this;
+        const { handleLoginModal, handleAuth } = this;
         return (
             <div>
                 <Header>
@@ -52,8 +68,9 @@ class App extends Component {
                     <AuthButton onClick={handleLoginModal.open}/>
                 </Header>
                 <LoginModal visible={modal.getIn(['login', 'open'])} onHide={handleLoginModal.close}>
-                    <SocialLoginButton onClick={auth.google} types='google'/>
-                    <SocialLoginButton onClick={auth.facebook} types='facebook'/>
+                    <SocialLoginButton onClick={()=>{ handleAuth("github")}} types='github'/>
+                    <SocialLoginButton onClick={()=>{ handleAuth("google")}} types='google'/>
+                    <SocialLoginButton onClick={()=>{ handleAuth("facebook")}} types='facebook'/>
                 </LoginModal>
                 { children }
             </div>

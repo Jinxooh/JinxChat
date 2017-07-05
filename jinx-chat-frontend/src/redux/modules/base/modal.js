@@ -14,6 +14,9 @@ const initialState = Map({
     login: Map({
         open: false,
     }),
+    linkAccount: Map({
+        oepn: false,
+    }),
 });
 
 /* reducer */

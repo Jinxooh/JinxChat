@@ -8,14 +8,21 @@ import * as modal from 'redux/modules/base/modal';
 
 // load component
 import Header, { BrandLogo, SidebarButton, AuthButton } from 'components/Base/Header/Header';
-import LoginModal, { SocialLoginButton } from 'components/Base/LoginModal/LoginModal';
-import LinkAccountModal from 'components/Base/LoginModal/LinkAccountModal';
 import auth from 'helpers/firebase/auth';
 import * as users from 'helpers/firebase/database/users';
+
+import * as Modals from 'components/Base/Modals';
+const { LoginModal, LinkAccountModal } = Modals;
+const { SocialLoginButton } = LoginModal;
+
+// import LoginModal, { SocialLoginButton } from 'components/Base/Modals';
+// import LinkAccountModal from 'components/Base/Modals';
 
 class App extends Component {
 
     componentDidMount() {
+
+        auth.logout();
         auth.authStateChanged(
             async (firebaseUser) => {
                 if(firebaseUser) {
@@ -38,20 +45,37 @@ class App extends Component {
         )
     }
 
-    handleAuth = (provider) => {
+    handleAuth = async  (provider) => {
         this.handleModal.close('login');
-        auth[provider]().catch(
-            error => {
-                if(error.code === "auth/account-exists-with-different-credential"){
-                    //auth.resolveDuplicate(error);
-                    this.handleModal.open({ 
-                        modalName: 'linkAccount',
-                        data: error
-                    });
-                }
+
+        try{
+            await auth[provider]();
+        } catch(e) {
+            if(e.code === "auth/account-exists-with-different-credential"){
+                const exisitingProvider = await auth.getExistingProvider(e.email);
+
+                this.handleModal.open({ 
+                    modalName: 'linkAccount',
+                    data: {
+                        credential: e.credential,
+                        provider,
+                        exisitingProvider,
+                    }
+                });
             }
-        );
+        }
     }
+
+    handleLinkAccount = () => {
+        const { status : { modal } } = this.props;
+        const { handleModal } = this;
+
+        const credential = modal.getIn(['linkAccount', 'credential']);
+        const provider = modal.getIn(['linkAccount', 'exisitingProvider']);
+        
+        auth.linkAccount({provider, credential});
+        handleModal.close('linkAccount');
+    };
 
     handleModal = (() => {
         const { ModalActions } = this.props;
@@ -67,7 +91,7 @@ class App extends Component {
 
     render() {
         const { children, status: {modal} } = this.props;
-        const { handleModal, handleAuth } = this;
+        const { handleModal, handleAuth, handleLinkAccount } = this;
         return (
             <div>
                 <Header>
@@ -80,7 +104,13 @@ class App extends Component {
                     <SocialLoginButton onClick={()=>{ handleAuth("google")}} types='google'/>
                     <SocialLoginButton onClick={()=>{ handleAuth("facebook")}} types='facebook'/>
                 </LoginModal>
-                <LinkAccountModal visible={modal.getIn(['linkAccount', 'open'])} onHide={()=> handleModal.close('linkAccount')}/>
+                <LinkAccountModal 
+                    visible={modal.getIn(['linkAccount', 'open'])} 
+                    onHide={()=> handleModal.close('linkAccount')}
+                    exisitingProvider={modal.getIn(['linkAccount', 'exisitingProvider'])}
+                    provider={modal.getIn(['linkAccount', 'provider'])}
+                    onLinkAccount={handleLinkAccount}
+                />
                 { children }
             </div>
         );

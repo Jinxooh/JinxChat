@@ -7,7 +7,15 @@
 
     .modal {
         background: white;
-        width: 15rem;
+        width: auto;
         box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+
+        // setting animation
+        &.flipInX, &.flipOutX{
+            -webkit-animation-duration: .8s;
+            animation-duration: .8s;
+            -webkit-animation-fill-mode: both;
+            animation-fill-mode: both;
+        }
     }
 }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Dimmer from 'components/Common/Dimmer';
 import EyeCatchy from 'components/Common/EyeCatchy'; 
+import SocialLoginButton from './SocialLoginButton';
 
 class LoginModal extends Component {
     
@@ -54,5 +55,5 @@ class LoginModal extends Component {
     }
 }
 
-export { default as SocialLoginButton } from './SocialLoginButton';
+LoginModal.SocialLoginButton = SocialLoginButton;
 export default LoginModal;

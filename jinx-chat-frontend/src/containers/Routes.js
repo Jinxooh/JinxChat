@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom'
 
 import App from './App';
-import { MainRoute, AuthRoute } from 'containers/route';
+import { MainRoute, RegisterRoute } from 'containers/route';
 
 const Routes = () => {
     return (
@@ -15,7 +15,7 @@ const Routes = () => {
                 <Route path="/" component={App}/>
                 <Switch>
                     <Route exact path='/' component={MainRoute}></Route>
-                    <Route exact path='/auth' component={AuthRoute}></Route>
+                    <Route exact path='/register' component={RegisterRoute}></Route>
                 </Switch>
             </div>
         </Router>

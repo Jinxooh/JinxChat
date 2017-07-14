@@ -19,7 +19,7 @@ const LinkAccountModal = ({onHide, visible, exisitingProvider, provider, onLinkA
                 <p className="warning">If you don't want to this, press <b>NO</b> button</p>
             </div>
             <div className="footer">
-                <Button color="teal"onClick={onLinkAccount}>YES</Button>
+                <Button color="teal" onClick={onLinkAccount}>YES</Button>
                 <Button color="red" onClick={onHide}>NO</Button>
             </div>
         </Modal>

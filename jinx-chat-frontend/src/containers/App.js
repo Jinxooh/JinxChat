@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 
 // import reducer DUK
 import * as modal from 'redux/modules/base/modal';
+import * as authAction from 'redux/modules/base/auth';
 
 // load component
 import Header, { BrandLogo, SidebarButton, AuthButton } from 'components/Base/Header/Header';
@@ -22,20 +23,24 @@ class App extends Component {
 
     componentDidMount() {
 
-        auth.logout();
+        // auth.logout();
         auth.authStateChanged(
             async (firebaseUser) => {
+                const { AuthActions } = this.props;
+
                 if(firebaseUser) {
+                    AuthActions.authenticate(firebaseUser);
                     console.log('login', firebaseUser);
                     
                     const user = await users.findUserById(firebaseUser.uid);
-                    if(user.exists()){
-
+                    if(!user.exists()){
+                        console.log('!user.exists', user);
+                        // await users.createUserData(firebaseUser); 
                     } else {
-                        await users.createUserData(firebaseUser); 
+                        console.log(' user already!!');
                     }
-                    console.log(user);
-                    console.log(user.val());
+                    // console.log(user);
+                    // console.log(user.val());
 
                     // modal close
                 } else {
@@ -124,6 +129,7 @@ export default connect(
         }
     }),
     dispatch => ({
-        ModalActions: bindActionCreators(modal, dispatch)
+        ModalActions: bindActionCreators(modal, dispatch),
+        AuthActions: bindActionCreators(authAction, dispatch),
     })
 )(App);

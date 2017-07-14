@@ -2,17 +2,20 @@ import { createAction, handleActions } from 'redux-actions';
 import { Map } from 'immutable';
 
 /* Action */
-const EXAMPLE = 'base/header/EXAMPLE';
+const AUTHENTICATE = 'auth/AUTHENTICATE';
  
-export const example = createAction(EXAMPLE);
+export const authenticate = createAction(AUTHENTICATE);
 
 /* initialState */
 const initialState = Map({
-    something: true
+    user: null
 });
 
 export default handleActions({
-    [EXAMPLE]: (state, action) => (
-        state.set('something', action.payload)
-    ),
+    [AUTHENTICATE]: (state, action) => {
+        const user = action.payload;
+        console.log('user :: ', user);
+
+        return state.set('user', user);
+    }
 }, initialState);

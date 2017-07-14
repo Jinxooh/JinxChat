@@ -17,13 +17,14 @@ import * as firebase from 'firebase';
 
 //<- 기존것보다 아래 코드가 더 나은듯!
 
-export const createUserData = (user) => {
+export const createUserData = ({user, username}) => {
     const { uid, email, providerData, photoURL, displayName} = user;
     return firebase.database().ref('users/' + uid).set({
         email,
         providerData,
         photoURL,
         displayName,
+        username
     });
 };
 

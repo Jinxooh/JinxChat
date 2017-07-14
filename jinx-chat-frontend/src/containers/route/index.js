@@ -1,7 +1,7 @@
 import MainRoute from './MainRoute';
-import AuthRoute from './AuthRoute';
+import RegisterRoute from './RegisterRoute';
 
 export {
     MainRoute,
-    AuthRoute,
+    RegisterRoute,
 }

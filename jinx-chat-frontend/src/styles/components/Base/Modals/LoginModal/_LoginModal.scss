@@ -60,4 +60,10 @@
             animation-fill-mode: both;
         }
     }
+    @include media("<desktop") {
+        .login-modal{
+            width: 25rem;
+        }
+    }
 }
+

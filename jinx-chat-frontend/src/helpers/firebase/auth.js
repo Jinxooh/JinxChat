@@ -9,6 +9,9 @@ const auth = (function() {
     };
 
     return {
+        initialize: (auth) => {
+
+        },
         github: () => {
             return firebase.auth().signInWithPopup(providers.github);
         },

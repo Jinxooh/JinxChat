@@ -21,11 +21,11 @@ const { SocialLoginButton } = LoginModal;
 
 class App extends Component {
 
-    componentDidMount() {
-
-        // auth.logout();
+    async componentDidMount() {
+        auth.logout();
         auth.authStateChanged(
             async (firebaseUser) => {
+                console.log('abc');
                 const { AuthActions } = this.props;
 
                 if(firebaseUser) {
@@ -39,10 +39,6 @@ class App extends Component {
                     } else {
                         console.log(' user already!!');
                     }
-                    // console.log(user);
-                    // console.log(user.val());
-
-                    // modal close
                 } else {
                     console.log('no login');
                 }

@@ -17,16 +17,16 @@ import * as firebase from 'firebase';
 
 //<- 기존것보다 아래 코드가 더 나은듯!
 
-export const createUserData = ({user, username}) => {
-    const { uid, email, providerData, photoURL, displayName} = user;
-    return firebase.database().ref('users/' + uid).set({
+export const createUserData = ({user, email}) => {
+    return firebase.database().ref('users/' + user.uid).set({
         email,
-        providerData,
-        photoURL,
-        displayName,
-        username
     });
 };
+
+export const findUserByUsername = (username) => {
+    const ref = firebase.database().ref('/users/');
+    return ref.orderByChild('username').equalTo(username).once('child_added')
+}
 
 export const findUserById = (uid) => {
     // once 변경을 수신 대기하지 않고 단순히 데이터의 스냅샷만 필요한 경우가 있습니다. 

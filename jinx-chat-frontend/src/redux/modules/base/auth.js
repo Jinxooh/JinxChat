@@ -14,8 +14,6 @@ const initialState = Map({
 export default handleActions({
     [AUTHENTICATE]: (state, action) => {
         const user = action.payload;
-        console.log('user :: ', user);
-
         return state.set('user', user);
     }
 }, initialState);

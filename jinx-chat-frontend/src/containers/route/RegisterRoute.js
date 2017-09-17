@@ -16,8 +16,19 @@ class RegisterRoute extends Component {
     //         value: e.target.value,
     //     });
     // }
+    
+    handleRegister = (username) => {
+        const { status: { auth }} = this.props;
+        
+        const {uid, photoURL, displaynName } = auth;
+        console.log('user',uid );
+
+        const { RegisterActions } = this.props;
+        RegisterActions.register({uid, photoURL, displaynName, username});
+    }
 
     render() {
+        const { handleRegister } = this;
         return (
             <div>
                 <Register>
@@ -25,7 +36,7 @@ class RegisterRoute extends Component {
                         <PrevButton/>
                     </TitleBar>
                     <Content>
-                        <InputNickName/>
+                        <InputNickName onClick={handleRegister}/>
                     </Content>
                 </Register>
             </div>
@@ -34,9 +45,9 @@ class RegisterRoute extends Component {
 }
 
 RegisterRoute = connect(
-    state => ({
+    state => (console.log(state.base.auth.get('user')),{
         status: {
-            user: state.auth.get('user'),
+            auth: state.base.auth.get('user'),
         }
     }),
     dispatch => ({

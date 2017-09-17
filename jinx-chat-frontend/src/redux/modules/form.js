@@ -16,7 +16,7 @@ const initialState = Map({
     })
 });
 
-/* reducer */
+/* reducer */ 
 export default handleActions({
     [INITIALIZE]: (state, action) => {
         const formName = action.payload;

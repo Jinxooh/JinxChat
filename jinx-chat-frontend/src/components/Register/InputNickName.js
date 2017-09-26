@@ -26,7 +26,7 @@ class InputNickName extends Component {
                             labelPosition: 'right',
                             content: 'Continue',
                             icon: 'chevron right',
-                            onClick: onClick,
+                            onClick: () => { onClick(value) },
                         }
                     }
                     placeholder="ID"

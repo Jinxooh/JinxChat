@@ -4,7 +4,6 @@ import promiseMiddleware from 'redux-promise-middleware';
 // load modules
 import base from './modules/base';
 import form from './modules/form';
-
 /*configure Middleware*/
 const middlewares = [promiseMiddleware()];
 

@@ -21,9 +21,8 @@ const { SocialLoginButton } = LoginModal;
 
 class App extends Component {
 
-    componentDidMount() {
-
-        // auth.logout();
+    async componentDidMount() {
+        
         auth.authStateChanged(
             async (firebaseUser) => {
                 const { AuthActions } = this.props;
@@ -41,7 +40,8 @@ class App extends Component {
                     }
                     // console.log(user);
                     // console.log(user.val());
-
+                    const result = await users.findUserByUsername('asd123');
+                    console.log(result.val());
                     // modal close
                 } else {
                     console.log('no login');
@@ -50,7 +50,7 @@ class App extends Component {
         )
     }
 
-    handleAuth = async  (provider) => {
+    handleAuth = async (provider) => {
         this.handleModal.close('login');
 
         try{

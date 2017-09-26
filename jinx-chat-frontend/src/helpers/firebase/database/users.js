@@ -1,22 +1,5 @@
 import * as firebase from 'firebase';
 
-// const user = (()=> {
-//     return {
-//         writeUser: (user) => {
-//             const { uid, displayName, email, photoURL, providerData,} = user;
-
-//             firebase.database().ref('users/' + uid).set({
-//                 providerData,
-//                 displayName,
-//                 email,
-//                 photoURL,
-//             });
-//         },
-//     }
-// })();
-
-//<- 기존것보다 아래 코드가 더 나은듯!
-
 export const createUserData = ({user, username}) => {
     const { uid, email, providerData, photoURL, displayName} = user;
     return firebase.database().ref('users/' + uid).set({
@@ -34,4 +17,10 @@ export const findUserById = (uid) => {
     // 이러한 경우 once() 메소드를 사용하면 시나리오가 단순해집니다. 
     // 이 메소드는 한 번 호출된 후 다시 호출되지 않습니다.
     return firebase.database().ref('/users/' + uid).once('value')
+}
+
+
+export const findUserByUsername = (username) => {
+    const ref = firebase.database().ref('/users/');
+    return ref.orderByChild('username').equalTo(username).once('child_added');
 }

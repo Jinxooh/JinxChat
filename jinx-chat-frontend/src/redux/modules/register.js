@@ -2,13 +2,14 @@ import { createAction, handleActions } from 'redux-actions';
 import { Map } from 'immutable';
 import Request, { requize, pend, fulfill, reject } from 'helpers/request';
 import * as users from 'helpers/firebase/database/users';
+import * as profiles from 'helpers/firebase/database/profiles';
 
 /* actions */
 const REGISTER = "register/REGISTER_REQUEST";
 
 /* action creators */
 // export const registerRequest = createAction(REGISTER_REQUEST);
-export const something = ({user, username}) => ({
+export const register = ({user, username}) => ({
     type: REGISTER.DEFAULT,
     payload: {
         promise: users.createUserData({user, username})

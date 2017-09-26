@@ -8,13 +8,23 @@ import { bindActionCreators } from 'redux';
 const { TitleBar, PrevButton, Content, InputNickName } = Register;
 
 class RegisterRoute extends Component {
-  
+    // handleChnage = (e) => {
+    //     const { FormActions } = this.props;
+    //     FormActions.change({
+    //         formName: 'register',
+    //         name: 'username',
+    //         value: e.target.value,
+    //     });
+    // }
+    
     handleRegister = (username) => {
         const { status: { auth }} = this.props;
-        const user = auth.get('user');
+        
+        const {uid, photoURL, displaynName } = auth;
+        console.log('user',uid );
 
         const { RegisterActions } = this.props;
-        RegisterActions.register({user, username});
+        RegisterActions.register({uid, photoURL, displaynName, username});
     }
 
     render() {
@@ -35,9 +45,13 @@ class RegisterRoute extends Component {
 }
 
 RegisterRoute = connect(
-    state => ({
+    state => (console.log(state.base.auth.get('user')),{
         status: {
+<<<<<<< HEAD
             auth: state.base.auth,
+=======
+            auth: state.base.auth.get('user'),
+>>>>>>> 6f047a27079a2aeab5cf6e717bf15b9e273da73f
         }
     }),
     dispatch => ({

@@ -22,9 +22,10 @@ const { SocialLoginButton } = LoginModal;
 class App extends Component {
 
     async componentDidMount() {
-        
+        auth.logout();
         auth.authStateChanged(
             async (firebaseUser) => {
+                console.log('abc');
                 const { AuthActions } = this.props;
 
                 if(firebaseUser) {

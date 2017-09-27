@@ -10,7 +10,6 @@ import * as authAction from 'redux/modules/base/auth';
 // load component
 import Header, { BrandLogo, SidebarButton, AuthButton } from 'components/Base/Header/Header';
 import auth from 'helpers/firebase/auth';
-import * as users from 'helpers/firebase/database/users';
 
 import * as Modals from 'components/Base/Modals';
 const { LoginModal, LinkAccountModal } = Modals;
@@ -25,25 +24,12 @@ class App extends Component {
         auth.logout();
         auth.authStateChanged(
             async (firebaseUser) => {
-                console.log('abc');
                 const { AuthActions } = this.props;
 
                 if(firebaseUser) {
                     AuthActions.authenticate(firebaseUser);
                     console.log('login', firebaseUser);
-                    
-                    const user = await users.findUserById(firebaseUser.uid);
-                    if(!user.exists()){
-                        console.log('!user.exists', user);
-                        // await users.createUserData(firebaseUser); 
-                    } else {
-                        console.log(' user already!!');
-                    }
-                    // console.log(user);
-                    // console.log(user.val());
-                    const result = await users.findUserByUsername('asd123');
-                    console.log(result.val());
-                    // modal close
+                  
                 } else {
                     console.log('no login');
                 }
@@ -55,7 +41,7 @@ class App extends Component {
         this.handleModal.close('login');
 
         try{
-            await auth[provider]();
+            await auth.signInWithPopup(provider);
         } catch(e) {
             if(e.code === "auth/account-exists-with-different-credential"){
                 const exisitingProvider = await auth.getExistingProvider(e.email);

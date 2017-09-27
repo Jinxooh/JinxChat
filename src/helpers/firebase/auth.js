@@ -1,7 +1,9 @@
 import * as firebase from 'firebase';
 
-const auth = (function() {
+const authHelper = (function() {
     
+    let auth;
+
     const providers = {
         github: (new firebase.auth.GithubAuthProvider()),
         facebook: (new firebase.auth.FacebookAuthProvider()),
@@ -9,42 +11,39 @@ const auth = (function() {
     };
 
     return {
-        github: () => {
-            return firebase.auth().signInWithPopup(providers.github);
+        initalize: (authInstance) => {
+            auth = authInstance;
         },
-        facebook: () => {
-            return firebase.auth().signInWithPopup(providers.facebook);
-        },
-        google: () => {
-            return firebase.auth().signInWithPopup(providers.google);
+        signInWithPopup: (provider) => {
+            return auth.signInWithPopup(providers[provider]);
         },
         logout: () => {
-            return firebase.auth().signOut();
+            return auth.signOut();
         },
         getExistingProvider: async (email) => {
-            const existingProviders = await firebase.auth().fetchProvidersForEmail(email);
+            const existingProviders = await auth.fetchProvidersForEmail(email);
             const provider = existingProviders[0].split('.')[0]; 
             return provider;
         },
         linkAccount: async ({provider, credential}) => {
-            const result = await firebase.auth().signInWithPopup(providers[provider]);
+            const result = await auth.signInWithPopup(providers[provider]);
             return result.user.linkWithCredential(credential);
         },
         resolveDuplicate: async (error) => {
             const { credential, email } = error;
-            const existingProviders = await firebase.auth().fetchProvidersForEmail(email);
+            const existingProviders = await auth.fetchProvidersForEmail(email);
             
             const provider = existingProviders[0].split('.')[0];
-            const result = await firebase.auth().signInWithPopup(providers[provider]);
+            const result = await auth.signInWithPopup(providers[provider]);
             
             console.log(result);
             console.log(result.user);
             return result.user.linkWithCredential(credential);
         },
         authStateChanged: (callback) => {
-            firebase.auth().onAuthStateChanged(callback);
+            auth.onAuthStateChanged(callback);
         }
     }
 })();
 
-export default auth;
+export default authHelper;

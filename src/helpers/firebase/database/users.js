@@ -20,7 +20,6 @@ const usersHelper = (() => {
         setUsername: ({uid, username}) => {
             return users.child('usernames').child(username).set(uid);
         },
-
         checkUsername: async (username) => {
             const data = await users.child('usernames').child(username).once('value');
             return { available: !data.exists() };

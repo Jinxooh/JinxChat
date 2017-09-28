@@ -5,6 +5,7 @@ import * as register from 'redux/modules/register';
 
 import { bindActionCreators } from 'redux';
 import debounce from 'lodash/debounce';
+import { Message } from 'semantic-ui-react';
 
 const { TitleBar, PrevButton, Content, InputNickName } = Register;
 
@@ -21,7 +22,6 @@ class RegisterRoute extends Component {
         const { uid, photoURL, email, displayName } = user;
     
         const { RegisterActions } = this.props;
-
         await RegisterActions.setUsername({uid, username});
         await RegisterActions.register({
             uid,
@@ -34,6 +34,7 @@ class RegisterRoute extends Component {
 
     handleValidate = (username) => {
         const { RegisterActions } = this.props;
+       
         const regex = /^[a-z0-9_]{4,20}$/;
         if(!regex.test(username)) {
             RegisterActions.setValidity({
@@ -50,15 +51,26 @@ class RegisterRoute extends Component {
         this.handleCheckUsername(username);
     }
 
-    handleCheckUsername = (username) => {
-        console.log('usermae, ', username);
+    handleCheckUsername = async (username) => {
         const { RegisterActions } = this.props;
 
-        RegisterActions.checkUsername(username);
+        const result = await RegisterActions.checkUsername(username);
+        if(!result.value.available) {
+            RegisterActions.setValidity({
+                valid: false,
+                message: 'duplicated ID',
+            });
+        } else {
+            RegisterActions.setValidity({
+                valid: true,
+                message: '',
+            });
+        }
     }
 
     render() {
         const { handleRegister, handleValidate } = this;
+        const { status: { validation }} = this.props;
         return (
             <div>
                 <Register>
@@ -66,7 +78,18 @@ class RegisterRoute extends Component {
                         <PrevButton/>
                     </TitleBar>
                     <Content>
-                        <InputNickName onClick={handleRegister} onValidate={handleValidate}/>
+                        <InputNickName
+                            onClick={handleRegister}
+                            onValidate={handleValidate}
+                            error={validation.valid === false}
+                        />
+                        {
+                            !validation.valid && (
+                                <Message color='red'>
+                                    { validation.message }
+                                </Message>
+                            )
+                        }
                     </Content>
                 </Register>
             </div>
@@ -78,6 +101,7 @@ RegisterRoute = connect(
     state => ({
         status: {
             auth: state.base.auth,
+            validation: state.register.get('validation'),
         }
     }),
     dispatch => ({

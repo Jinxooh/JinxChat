@@ -12,7 +12,7 @@ import Header, { BrandLogo, SidebarButton, AuthButton } from 'components/Base/He
 import auth from 'helpers/firebase/auth';
 
 import * as Modals from 'components/Base/Modals';
-import users from 'helpers/firebase/database/users';
+// import users from 'helpers/firebase/database/users';
 
 const { LoginModal, LinkAccountModal } = Modals;
 const { SocialLoginButton } = LoginModal;
@@ -31,8 +31,6 @@ class App extends Component {
                 if(firebaseUser) {
                     AuthActions.authenticate(firebaseUser);
 
-                    const exists = await users.checkUsername('aaa');
-                    console.log(exists);
                     console.log('login', firebaseUser);
                   
                 } else {
@@ -119,7 +117,7 @@ class App extends Component {
 export default connect(
     state => ({
         status: {
-            modal: state.base.modal
+            modal: state.base.modal,
         }
     }),
     dispatch => ({

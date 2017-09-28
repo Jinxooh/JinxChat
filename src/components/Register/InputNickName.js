@@ -17,7 +17,7 @@ class InputNickName extends Component {
     }
 
     render() {
-        const { onClick } = this.props;
+        const { onClick, error } = this.props;
         const { handleChange } = this;
         const { value } = this.state;
 
@@ -36,6 +36,7 @@ class InputNickName extends Component {
                     placeholder="ID"
                     onChange={handleChange}
                     value={value}
+                    error={error}
                 >
                 </Input>
             </div>

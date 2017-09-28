@@ -4,25 +4,27 @@ import Request, { requize, pend, fulfill, reject } from 'helpers/request';
 import users from 'helpers/firebase/database/users';
 
 /* actions */
-const USERNAME_CHECK = requize("register/USERNAME_CHECK");
+// const USERNAME_CHECK = requize("register/USERNAME_CHECK");
 const USERNAME_SET = requize("register/USERNAME_SET");
+const USERNAME_CHECK = requize("register/USERNAME_CHECK");
 const REGISTER = requize("register/REGISTER");
-const SET_VALIDITY = requize("register/SET_VALIDITY");
+const SET_VALIDITY = "register/SET_VALIDITY";
 
 /* action creators */
-export const checkUsername = (username) => ({
-    type: USERNAME_CHECK.DEFAULT,
-    paload: {
-        promise: users.checkUsername(username)
-    }
-})
-
 export const setUsername = ({uid, username}) => ({
     type: USERNAME_SET.DEFAULT,
     payload: {
         promise: users.setUsername({uid, username})
     }
-})
+});
+
+export const checkUsername = (username) => ({
+    type: USERNAME_CHECK.DEFAULT,
+    payload: {
+        promise: users.checkUsername(username)
+    }
+});
+
 export const register = ({uid, thumbnail, displayName, email, username}) => ({
     type: REGISTER.DEFAULT,
     payload: {
@@ -47,18 +49,12 @@ const initialState = Map({
 
 /* reducer */
 export default handleActions({ 
-
-     // CHECK USERNAME
-     [USERNAME_CHECK.PENDING]: (state, action) => {
+    // CHECK USERNAME
+    [USERNAME_CHECK.PENDING]: (state, action) => {
         return pend(state, 'checkUsername');
     },
     [USERNAME_CHECK.FULFILLED]: (state, action) => {
-        const { available } = action.payload;
-        return fulfill(state, 'checkUsername')
-                .mergeIn(['validation'], {
-                    valid: available,
-                    message: (available) ? '' : 'duplicate id'
-                });
+        return fulfill(state, 'checkUsername');
     },
     [USERNAME_CHECK.REJECTED]: (state, action) => {
         const error = action.payload;
@@ -67,6 +63,7 @@ export default handleActions({
 
     // SET USERNAME
     [USERNAME_SET.PENDING]: (state, action) => {
+        console.log('set pending');
         return pend(state, 'setUsername');
     },
     [USERNAME_SET.FULFILLED]: (state, action) => {

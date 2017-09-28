@@ -7,9 +7,13 @@ class InputNickName extends Component {
     }
     
     handleChange = (e) => {
+        const { onValidate } = this.props;
+
         this.setState({
             value: e.target.value
         });
+
+        onValidate(e.target.value);
     }
 
     render() {

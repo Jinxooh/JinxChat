@@ -1,13 +1,28 @@
-import { handleActions } from 'redux-actions';
+import { handleActions, createAction } from 'redux-actions';
 import { Map } from 'immutable';
 import Request, { requize, pend, fulfill, reject } from 'helpers/request';
 import users from 'helpers/firebase/database/users';
 
 /* actions */
+const USERNAME_CHECK = requize("register/USERNAME_CHECK");
+const USERNAME_SET = requize("register/USERNAME_SET");
 const REGISTER = requize("register/REGISTER");
+const SET_VALIDITY = requize("register/SET_VALIDITY");
 
 /* action creators */
-// export const registerRequest = createAction(REGISTER_REQUEST);
+export const checkUsername = (username) => ({
+    type: USERNAME_CHECK.DEFAULT,
+    paload: {
+        promise: users.checkUsername(username)
+    }
+})
+
+export const setUsername = ({uid, username}) => ({
+    type: USERNAME_SET.DEFAULT,
+    payload: {
+        promise: users.setUsername({uid, username})
+    }
+})
 export const register = ({uid, thumbnail, displayName, email, username}) => ({
     type: REGISTER.DEFAULT,
     payload: {
@@ -15,26 +30,70 @@ export const register = ({uid, thumbnail, displayName, email, username}) => ({
     }
 });
 
+export const setValidity = createAction(SET_VALIDITY);
+
 /* initialState */
 const initialState = Map({
     request: Map({
-        register: Request()
-    })
+        checkUsername: Request(),
+        setUsername: Request(),
+        register: Request(),
+    }),
+    validation: {
+        valid: true,
+        message: '',
+    }
 });
 
 /* reducer */
 export default handleActions({ 
+
+     // CHECK USERNAME
+     [USERNAME_CHECK.PENDING]: (state, action) => {
+        return pend(state, 'checkUsername');
+    },
+    [USERNAME_CHECK.FULFILLED]: (state, action) => {
+        const { available } = action.payload;
+        return fulfill(state, 'checkUsername')
+                .mergeIn(['validation'], {
+                    valid: available,
+                    message: (available) ? '' : 'duplicate id'
+                });
+    },
+    [USERNAME_CHECK.REJECTED]: (state, action) => {
+        const error = action.payload;
+        return reject(state, 'checkUsername', error);
+    },
+
+    // SET USERNAME
+    [USERNAME_SET.PENDING]: (state, action) => {
+        return pend(state, 'setUsername');
+    },
+    [USERNAME_SET.FULFILLED]: (state, action) => {
+        return fulfill(state, 'setUsername')
+    },
+    [USERNAME_SET.REJECTED]: (state, action) => {
+        const error = action.payload;
+        return reject(state, 'setUsername', error);
+    },
+
    // REGISTER
    [REGISTER.PENDING]: (state, action) => {
        return pend(state, 'register');
    },
    [REGISTER.FULFILLED]: (state, action) => {
-       const data = action.payload;
-        console.log(data);
-       return fulfill(state, 'register')
+       return fulfill(state, 'register');
    },
    [REGISTER.REJECTED]: (state, action) => {
        const error = action.payload;
        return reject(state, 'register', error);
-   }
+   },
+   [SET_VALIDITY]: (state, action) => {
+        const { valid, message } = action.payload;
+    
+        return state.mergeIn(['validation'], {
+            valid,
+            message: (!message) ? '' : message
+        });
+    },
 }, initialState);

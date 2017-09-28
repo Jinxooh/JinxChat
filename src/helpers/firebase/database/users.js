@@ -17,7 +17,14 @@ const usersHelper = (() => {
         findByUsername: (username) => {
             return users.child('profiles').orderByChild('username').equalTo(username);
         },
+        setUsername: ({uid, username}) => {
+            return users.child('usernames').child(username).set(uid);
+        },
 
+        checkUsername: async (username) => {
+            const data = await users.child('usernames').child(username).once('value');
+            return { available: !data.exists() };
+        },
         create: ({uid, username, displayName, email, thumbnail}) => {
             const profile = users.child('profiles').child(uid).set({
                 username,

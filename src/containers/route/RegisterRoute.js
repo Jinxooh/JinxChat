@@ -70,7 +70,7 @@ class RegisterRoute extends Component {
 
     render() {
         const { handleRegister, handleValidate } = this;
-        const { status: { validation }} = this.props;
+        const { status: { validation, loading }} = this.props;
         return (
             <div>
                 <Register>
@@ -82,6 +82,7 @@ class RegisterRoute extends Component {
                             onClick={handleRegister}
                             onValidate={handleValidate}
                             error={validation.valid === false}
+                            loading={loading.checkUsername}
                         />
                         {
                             !validation.valid && (
@@ -102,6 +103,9 @@ RegisterRoute = connect(
         status: {
             auth: state.base.auth,
             validation: state.register.get('validation'),
+            loading: {
+                checkUsername: state.register.getIn(['requests', 'checkUsername', 'fetching'])
+            },
         }
     }),
     dispatch => ({

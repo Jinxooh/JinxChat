@@ -17,7 +17,7 @@ class InputNickName extends Component {
     }
 
     render() {
-        const { onClick, error } = this.props;
+        const { onClick, error, loading } = this.props;
         const { handleChange } = this;
         const { value } = this.state;
 
@@ -37,6 +37,7 @@ class InputNickName extends Component {
                     onChange={handleChange}
                     value={value}
                     error={error}
+                    loading={loading} icon='user' iconPosition='left'
                 >
                 </Input>
             </div>

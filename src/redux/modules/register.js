@@ -36,7 +36,7 @@ export const setValidity = createAction(SET_VALIDITY);
 
 /* initialState */
 const initialState = Map({
-    request: Map({
+    requests: Map({
         checkUsername: Request(),
         setUsername: Request(),
         register: Request(),

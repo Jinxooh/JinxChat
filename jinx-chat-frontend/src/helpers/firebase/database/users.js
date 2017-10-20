@@ -35,9 +35,3 @@ export const findUserById = (uid) => {
     // 이 메소드는 한 번 호출된 후 다시 호출되지 않습니다.
     return firebase.database().ref('/users/' + uid).once('value')
 }
-
-
-export const findUserByUsername = (username) => {
-    const ref = firebase.database().ref('/users/');
-    return ref.orderByChild('username').equalTo(username).once('child_added');
-}

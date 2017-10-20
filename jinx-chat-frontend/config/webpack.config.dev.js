@@ -32,30 +32,41 @@ module.exports = {
   // These are the "entry points" to our application.
   // This means they will be the "root" imports that are included in JS bundle.
   // The first two entry points enable "hot" CSS and auto-refreshes for JS.
-  entry: [
-    require.resolve('react-hot-loader/patch'),
-    // Include an alternative client for WebpackDevServer. A client's job is to
-    // connect to WebpackDevServer by a socket and get notified about changes.
-    // When you save a file, the client will either apply hot updates (in case
-    // of CSS changes), or refresh the page (in case of JS changes). When you
-    // make a syntax error, this client will display a syntax error overlay.
-    // Note: instead of the default WebpackDevServer client, we use a custom one
-    // to bring better experience for Create React App users. You can replace
-    // the line below with these two lines if you prefer the stock client:
-    // require.resolve('webpack-dev-server/client') + '?/',
-    // require.resolve('webpack/hot/dev-server'),
-    require.resolve('react-dev-utils/webpackHotDevClient'),
-    // We ship a few polyfills by default:
-    require.resolve('./polyfills'),
-    // Errors should be considered fatal in development
-    require.resolve('react-error-overlay'),
-    // Finally, this is your app's code:
-    paths.appIndexJs,
-    paths.appMainStyle,
-    // We include the app code last so that if there is a runtime error during
-    // initialization, it doesn't blow up the WebpackDevServer client, and
-    // changing JS code would still trigger a refresh.
-  ],
+  entry: {
+    dev: 'react-error-overlay',
+    vendor: [
+      require.resolve('./polyfills'),
+      'react',
+      'react-dom',
+      'react-router-dom'
+    ],
+    app: ['react-dev-utils/webpackHotDevClient', paths.appIndexJs, paths.appMainStyle]
+  },
+  
+  // entry: [
+  //   require.resolve('react-hot-loader/patch'),
+  //   // Include an alternative client for WebpackDevServer. A client's job is to
+  //   // connect to WebpackDevServer by a socket and get notified about changes.
+  //   // When you save a file, the client will either apply hot updates (in case
+  //   // of CSS changes), or refresh the page (in case of JS changes). When you
+  //   // make a syntax error, this client will display a syntax error overlay.
+  //   // Note: instead of the default WebpackDevServer client, we use a custom one
+  //   // to bring better experience for Create React App users. You can replace
+  //   // the line below with these two lines if you prefer the stock client:
+  //   // require.resolve('webpack-dev-server/client') + '?/',
+  //   // require.resolve('webpack/hot/dev-server'),
+  //   require.resolve('react-dev-utils/webpackHotDevClient'),
+  //   // We ship a few polyfills by default:
+  //   require.resolve('./polyfills'),
+  //   // Errors should be considered fatal in development
+  //   require.resolve('react-error-overlay'),
+  //   // Finally, this is your app's code:
+  //   paths.appIndexJs,
+  //   paths.appMainStyle,
+  //   // We include the app code last so that if there is a runtime error during
+  //   // initialization, it doesn't blow up the WebpackDevServer client, and
+  //   // changing JS code would still trigger a refresh.
+  // ],
   output: {
     // Next line is not used in dev but WebpackDevServer crashes without it:
     path: paths.appBuild,
@@ -64,9 +75,9 @@ module.exports = {
     // This does not produce a real file. It's just the virtual path that is
     // served by WebpackDevServer in development. This is the JS bundle
     // containing code from all our entry points, and the Webpack runtime.
-    filename: 'static/js/bundle.js',
+    filename: 'static/js/[name].[hash].js',
     // There are also additional JS chunk files if you use code splitting.
-    chunkFilename: 'static/js/[name].chunk.js',
+    chunkFilename: 'static/js/[name].[chunkhash].chunk.js',
     // This is the URL that app is served from. We use "/" in development.
     publicPath: publicPath,
     // Point sourcemap entries to original disk location
@@ -255,6 +266,10 @@ module.exports = {
     // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
     // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
     // In development, this will be an empty string.
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      // filename: 'vendor.js' // 이런식으로 파일이름을 지정해 줄 수도 있습니다. (hash 생략가능)
+    }),
     new InterpolateHtmlPlugin(env.raw),
     // Generates an `index.html` file with the <script> injected.
     new HtmlWebpackPlugin({

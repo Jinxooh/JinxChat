@@ -1,8 +1,16 @@
 const Koa = require('koa');
+const serve = require('koa-static');
+const path = require('path');
+const fs = require('fs');
 const app = new Koa();
 
-app.use(ctx => {
-  ctx.body = 'hello world';
-});
+const render = require('./render');
 
-app.listen(3003);
+app.use((ctx, next) => {
+  if(ctx.path === '/') return render(ctx);
+  return next();
+})
+app.use(serve(path.resolve(__dirname, '../build/')));
+app.use(render);
+
+app.listen(3001);

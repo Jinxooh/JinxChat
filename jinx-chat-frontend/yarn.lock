@@ -3193,6 +3193,10 @@ ieee754@^1.1.4:
   version "1.1.8"
   resolved "https://registry.yarnpkg.com/ieee754/-/ieee754-1.1.8.tgz#be33d40ac10ef1926701f6f08a2d86fbfd1ad3e4"
 
+ignore-loader@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/ignore-loader/-/ignore-loader-0.1.2.tgz#d81f240376d0ba4f0d778972c3ad25874117a463"
+
 ignore@^3.2.0:
   version "3.3.3"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-3.3.3.tgz#432352e57accd87ab3110e82d3fea0e47812156d"
@@ -5512,6 +5516,10 @@ react-router-dom@^4.1.1:
     prop-types "^15.5.4"
     react-router "^4.2.0"
     warning "^3.0.0"
+
+react-router-server@^4.2.2:
+  version "4.2.2"
+  resolved "https://registry.yarnpkg.com/react-router-server/-/react-router-server-4.2.2.tgz#7cb8ddf932cd2ece63a8801f050df2066ddea1e0"
 
 react-router@^4.1.1, react-router@^4.2.0:
   version "4.2.0"

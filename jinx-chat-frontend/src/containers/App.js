@@ -4,15 +4,15 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 // import reducer DUK
-import * as modal from 'redux/modules/base/modal';
-import * as authAction from 'redux/modules/base/auth';
+import * as modal from '../redux/modules/base/modal';
+import * as authAction from '../redux/modules/base/auth';
 
 // load component
-import Header, { BrandLogo, SidebarButton, AuthButton } from 'components/Base/Header/Header';
-import auth from 'helpers/firebase/auth';
-import * as users from 'helpers/firebase/database/users';
+import Header, { BrandLogo, SidebarButton, AuthButton } from '../components/Base/Header/Header';
+import auth from '../helpers/firebase/auth';
+import * as users from '../helpers/firebase/database/users';
 
-import * as Modals from 'components/Base/Modals';
+import * as Modals from '../components/Base/Modals';
 const { LoginModal, LinkAccountModal } = Modals;
 const { SocialLoginButton } = LoginModal;
 

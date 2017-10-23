@@ -1,5 +1,5 @@
 import React from 'react';
-import Modal from 'components/Common/Modal';
+import Modal from '../../../../components/Common/Modal';
 import { Icon, Button } from 'semantic-ui-react';
 
 const LinkAccountModal = ({onHide, visible, exisitingProvider, provider, onLinkAccount}) => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Root from 'containers/Root';
+import Root from './containers/Root';
 import { AppContainer } from 'react-hot-loader'
 
 import * as firebase from 'firebase';

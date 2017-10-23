@@ -6,7 +6,8 @@ import {
 } from 'react-router-dom'
 
 import App from './App';
-import { MainRoute, RegisterRoute } from 'containers/route/index.async.js';
+// import { MainRoute, RegisterRoute } from 'containers/route/index.async.js';
+import { MainRoute, RegisterRoute } from './route';
 
 const Routes = () => {
     return (

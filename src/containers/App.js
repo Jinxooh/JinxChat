@@ -27,15 +27,24 @@ class App extends Component {
         router: PropTypes.object,
     }
 
+    profileRef = null;
+
     async componentDidMount() {
         // auth.logout();
         auth.authStateChanged(
             async (firebaseUser) => {
                 const { AuthActions } = this.props;
+                
+                if(this.profileRef) {
+                    this.profileRef.off()
+                    this.profileRef = null;
+                }
 
                 if(firebaseUser) {
                     AuthActions.authenticate(firebaseUser);
-
+                    this.profileRef = users.findProfileByIdSync(firebaseUser.uid, (snapshot) => {
+                        console.log(snapshot.val())
+                    })
                     console.log('login', firebaseUser);
                     
                 } else {
@@ -56,7 +65,7 @@ class App extends Component {
 
             // 해당 유저가 가입되어있는지 체크
             const uid = loginData.user.uid;
-            const profile = await users.finProfiledById(uid);
+            const profile = await users.findProfileById(uid);
             
             if(profile.exists()) {
                 // 이미 가입한 유저

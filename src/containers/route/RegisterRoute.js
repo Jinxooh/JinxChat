@@ -63,6 +63,17 @@ class RegisterRoute extends Component {
             // 가입 실패
             // 
             console.log(e);
+            const { FormActions, RegisterActions } = this.props;
+            FormActions.change({
+                formName: 'register',
+                name: 'username',
+                value: '',
+            });
+
+            RegisterActions.setValidity({
+                valid: false,
+                message: 'Unknown Error occurs! Please try again!',
+            });
         }
     }
 

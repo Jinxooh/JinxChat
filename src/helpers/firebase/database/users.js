@@ -6,12 +6,16 @@ const usersHelper = (() => {
             users = database.ref('/users');
         },
 
-        finProfiledById: (uid) => {
+        findProfileById: (uid) => {
             return users.child('profiles').child(uid).once('value');
         },
 
         findSettingById: (uid) => {
             return users.child('settings').child(uid).once('value');
+        },
+
+        findProfileByIdSync: (uid, callback) => {
+            return users.child('profiles').child(uid).on('value', callback);
         },
 
         findByUsername: (username) => {

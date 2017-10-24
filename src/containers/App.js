@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -12,7 +13,7 @@ import Header, { BrandLogo, SidebarButton, AuthButton } from 'components/Base/He
 import auth from 'helpers/firebase/auth';
 
 import * as Modals from 'components/Base/Modals';
-// import users from 'helpers/firebase/database/users';
+import users from 'helpers/firebase/database/users';
 
 const { LoginModal, LinkAccountModal } = Modals;
 const { SocialLoginButton } = LoginModal;
@@ -21,6 +22,10 @@ const { SocialLoginButton } = LoginModal;
 // import LinkAccountModal from 'components/Base/Modals';
 
 class App extends Component {
+    
+    static contextTypes = {
+        router: PropTypes.object,
+    }
 
     async componentDidMount() {
         auth.logout();
@@ -32,7 +37,7 @@ class App extends Component {
                     AuthActions.authenticate(firebaseUser);
 
                     console.log('login', firebaseUser);
-                  
+                    
                 } else {
                     console.log('no login');
                 }
@@ -43,15 +48,30 @@ class App extends Component {
     }
 
     handleAuth = async (provider) => {
-        this.handleModal.close('login');
-
+        const { handleModal } = this;
+        handleModal.close('login');
+        
         try{
-            await auth.signInWithPopup(provider);
+            const loginData = await auth.signInWithPopup(provider);
+
+            // 해당 유저가 가입되어있는지 체크
+            const uid = loginData.user.uid;
+            const profile = await users.finProfiledById(uid);
+            
+            if(profile.exists()) {
+                console.log('hello');
+                // 이미 가입한 유저
+            } else {
+                // 안가입
+                console.log('no thankx')
+                // this.context.router.push('/register');
+                this.context.router.history.push('/register');
+            }
         } catch(e) {
             if(e.code === "auth/account-exists-with-different-credential"){
                 const exisitingProvider = await auth.getExistingProvider(e.email);
 
-                this.handleModal.open({ 
+                handleModal.open({ 
                     modalName: 'linkAccount',
                     data: {
                         credential: e.credential,

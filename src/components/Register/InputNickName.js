@@ -2,24 +2,9 @@ import React, { Component } from 'react';
 import { Input } from 'semantic-ui-react';
 
 class InputNickName extends Component {
-    state = {
-        value: ''
-    }
-    
-    handleChange = (e) => {
-        const { onValidate } = this.props;
-
-        this.setState({
-            value: e.target.value
-        });
-
-        onValidate(e.target.value);
-    }
 
     render() {
-        const { onClick, error, loading } = this.props;
-        const { handleChange } = this;
-        const { value } = this.state;
+        const { onClick, error, loading, value, onChange } = this.props;
 
         return (
             <div className="input-nickname">
@@ -31,13 +16,15 @@ class InputNickName extends Component {
                             content: 'Continue',
                             icon: 'chevron right',
                             onClick: ()=> { onClick(value) },
+                            disabled: error || value === '',
+                            loading: loading.setUsername || loading.register
                         }
                     }
                     placeholder="ID"
-                    onChange={handleChange}
+                    onChange={onChange}
                     value={value}
                     error={error}
-                    loading={loading} icon='user' iconPosition='left'
+                    loading={loading.checkUsername} icon='user' iconPosition='left'
                 >
                 </Input>
             </div>

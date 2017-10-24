@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Register from 'components/Register/Register';
 import { connect } from 'react-redux';
 import * as register from 'redux/modules/register';
-
+import * as form from 'redux/modules/form';
 import { bindActionCreators } from 'redux';
 import debounce from 'lodash/debounce';
 import { Message } from 'semantic-ui-react';
@@ -11,25 +12,58 @@ const { TitleBar, PrevButton, Content, InputNickName } = Register;
 
 class RegisterRoute extends Component {
     
+    static contextTypes = {
+        router: PropTypes.object,
+    }
+
     constructor(props) {
         super(props);
         this.handleCheckUsername = debounce(this.handleCheckUsername, 500);
     }
 
-    handleRegister = async (username) => {
-        const { status: { auth }} = this.props;
-        const user = auth.get('user');
-        const { uid, photoURL, email, displayName } = user;
-    
-        const { RegisterActions } = this.props;
-        await RegisterActions.setUsername({uid, username});
-        await RegisterActions.register({
-            uid,
-            username,
-            displayName,
-            email,
-            thumbnail: photoURL,
+    handleChange = (e) => {
+        const { FormActions } = this.props;
+        const value = e.target.value;
+        FormActions.change({
+            formName: 'register',
+            name: 'username',
+            value
         });
+
+        this.handleValidate(value);
+    }
+
+    componentDidMount() {
+        const { FormActions } = this.props;
+        FormActions.initialize('register');
+    }
+
+    handleRegister = async () => {
+        const { status: { auth }, form } = this.props;
+        const username = form.value;
+        const user = auth.get('user');
+        
+        const { uid, photoURL, email, displayName } = user;
+        const { RegisterActions } = this.props;
+
+        try{
+            await RegisterActions.setUsername({uid, username});
+            await RegisterActions.register({
+                uid,
+                username,
+                displayName,
+                email,
+                thumbnail: photoURL,
+            });
+
+            // 가입 성공
+            this.context.router.history.push('/');
+
+        } catch(e) {
+            // 가입 실패
+            // 
+            console.log(e);
+        }
     }
 
     handleValidate = (username) => {
@@ -69,8 +103,8 @@ class RegisterRoute extends Component {
     }
 
     render() {
-        const { handleRegister, handleValidate } = this;
-        const { status: { validation, loading }} = this.props;
+        const { handleRegister, handleValidate, handleChange } = this;
+        const { status: { validation, loading }, form: { value }} = this.props;
         return (
             <div>
                 <Register>
@@ -82,7 +116,9 @@ class RegisterRoute extends Component {
                             onClick={handleRegister}
                             onValidate={handleValidate}
                             error={validation.valid === false}
-                            loading={loading.checkUsername}
+                            loading={loading}
+                            onChange={handleChange}
+                            value={value}
                         />
                         {
                             !validation.valid && (
@@ -104,12 +140,17 @@ RegisterRoute = connect(
             auth: state.base.auth,
             validation: state.register.get('validation'),
             loading: {
-                checkUsername: state.register.getIn(['requests', 'checkUsername', 'fetching'])
+                checkUsername: state.register.getIn(['requests', 'checkUsername', 'fetching']),
+                setUsername: state.register.getIn(['requests', 'setUsername', 'fetching']),
+                register: state.register.getIn(['requests', 'register', 'fetching']),
             },
+        },
+        form: {
+            value: state.form.getIn(['register', 'username'])
         }
     }),
     dispatch => ({
-        // FormActions: bindActionCreators(form, dispatch),
+        FormActions: bindActionCreators(form, dispatch),
         RegisterActions: bindActionCreators(register, dispatch)
     })
 )(RegisterRoute);

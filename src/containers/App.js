@@ -28,7 +28,7 @@ class App extends Component {
     }
 
     async componentDidMount() {
-        auth.logout();
+        // auth.logout();
         auth.authStateChanged(
             async (firebaseUser) => {
                 const { AuthActions } = this.props;
@@ -59,11 +59,9 @@ class App extends Component {
             const profile = await users.finProfiledById(uid);
             
             if(profile.exists()) {
-                console.log('hello');
                 // 이미 가입한 유저
             } else {
                 // 안가입
-                console.log('no thankx')
                 // this.context.router.push('/register');
                 this.context.router.history.push('/register');
             }

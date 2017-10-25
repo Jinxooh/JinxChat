@@ -9,7 +9,7 @@ import * as modal from 'redux/modules/base/modal';
 import * as authAction from 'redux/modules/base/auth';
 
 // load component
-import Header, { BrandLogo, SidebarButton, AuthButton } from 'components/Base/Header/Header';
+import Header, { BrandLogo, SidebarButton, AuthButton, UserButton, UserMenu } from 'components/Base/Header/Header';
 import auth from 'helpers/firebase/auth';
 
 import * as Modals from 'components/Base/Modals';
@@ -137,9 +137,11 @@ class App extends Component {
                 <Header>
                     <SidebarButton/>
                     <BrandLogo/>
-                    {profile.get('username') ? null : (
-                        <AuthButton onClick={() => handleModal.open({modalName: 'login'})}/>
-                    )}
+                    {profile.get('username') 
+                    ? <UserButton onClick={() => console.log('fuck')} thumbnail={profile.get('thumbnail')}/>
+                    : <AuthButton onClick={() => handleModal.open({modalName: 'login'})}/>
+                    }
+                    <UserMenu />
                 </Header>
                 <LoginModal visible={modal.getIn(['login', 'open'])} onHide={()=> handleModal.close('login')}>
                     <SocialLoginButton onClick={()=>{ handleAuth("github")}} types='github'/>

@@ -29,6 +29,12 @@ export default handleActions({
     [PROFILE_SYNC]: (state, action) => {
         // 프로필 정보를 동기화
         const profile = action.payload;
+        if(profile === null) {
+            return state.merge({
+               profileSync: true,
+               profile: initialState.get('profile'), 
+            });
+        }
         return state.merge({
             profileSync: true,
             profile

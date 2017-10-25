@@ -15,7 +15,9 @@ const usersHelper = (() => {
         },
 
         findProfileByIdSync: (uid, callback) => {
-            return users.child('profiles').child(uid).on('value', callback);
+            const ref = users.child('profiles').child(uid);
+            ref.on('value', callback);
+            return ref;
         },
 
         findByUsername: (username) => {

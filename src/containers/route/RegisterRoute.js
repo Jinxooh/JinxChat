@@ -8,7 +8,7 @@ import { bindActionCreators } from 'redux';
 import debounce from 'lodash/debounce';
 import { Message } from 'semantic-ui-react';
 
-const { TitleBar, PrevButton, Content, InputNickName } = Register;
+const { TitleBar, PrevButton, Content, InputNickName, Loader } = Register;
 
 class RegisterRoute extends Component {
     
@@ -34,8 +34,16 @@ class RegisterRoute extends Component {
     }
 
     componentDidMount() {
-        const { FormActions } = this.props;
+        const { FormActions, status: { auth }} = this.props;
         FormActions.initialize('register');
+        console.log(auth.get('profile'));
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        const { status: { auth }} = this.props;
+        if(auth.getIn(['profile', 'username'])) {
+            this.context.router.history.push('/');
+        }
     }
 
     handleRegister = async () => {
@@ -138,6 +146,7 @@ class RegisterRoute extends Component {
                                 </Message>
                             )
                         }
+                        <Loader />
                     </Content>
                 </Register>
             </div>

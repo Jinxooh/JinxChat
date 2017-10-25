@@ -2,10 +2,11 @@
     @import "TitleBar";
     @import "PrevButton";
     @import "Content";
-
+    @import "Loader";
+    
     line-height: 2rem;
     background-color: white;
-    padding-bottom: 2rem;
+    // padding-bottom: 2rem;
     margin: 0 auto;
     margin-top: 2rem;
     width: 500px;

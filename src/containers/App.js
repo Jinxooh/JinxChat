@@ -15,6 +15,8 @@ import auth from 'helpers/firebase/auth';
 import * as Modals from 'components/Base/Modals';
 import users from 'helpers/firebase/database/users';
 
+import storage from 'helpers/storage';
+
 const { LoginModal, LinkAccountModal } = Modals;
 const { SocialLoginButton } = LoginModal;
 
@@ -28,13 +30,23 @@ class App extends Component {
     }
 
     profileRef = null;
+    
+    componentWillMount() {
+        const { AuthActions } = this.props;
+        const profile = storage.get('profile');
 
+        if(profile) {
+            AuthActions.syncProfile(profile);
+        }
+    }
+    
     async componentDidMount() {
         // auth.logout();
         auth.authStateChanged(
             async (firebaseUser) => {
                 const { AuthActions } = this.props;
                 
+                // 프로필 동기화 중지
                 if(this.profileRef) {
                     this.profileRef.off()
                     this.profileRef = null;
@@ -43,7 +55,11 @@ class App extends Component {
                 if(firebaseUser) {
                     AuthActions.authenticate(firebaseUser);
                     this.profileRef = users.findProfileByIdSync(firebaseUser.uid, (snapshot) => {
-                        console.log(snapshot.val())
+                        const profile = snapshot.val();
+                        AuthActions.syncProfile(profile);
+
+                        // profile is vailid => save to the localStorage
+                        storage.set('profile', profile);
                     })
                     console.log('login', firebaseUser);
                     
@@ -114,14 +130,16 @@ class App extends Component {
     })();
 
     render() {
-        const { children, status: {modal} } = this.props;
+        const { children, status: {modal, profile} } = this.props;
         const { handleModal, handleAuth, handleLinkAccount } = this;
         return (
             <div>
                 <Header>
                     <SidebarButton/>
                     <BrandLogo/>
-                    <AuthButton onClick={() => handleModal.open({modalName: 'login'})}/>
+                    {profile.get('username') ? null : (
+                        <AuthButton onClick={() => handleModal.open({modalName: 'login'})}/>
+                    )}
                 </Header>
                 <LoginModal visible={modal.getIn(['login', 'open'])} onHide={()=> handleModal.close('login')}>
                     <SocialLoginButton onClick={()=>{ handleAuth("github")}} types='github'/>
@@ -145,6 +163,7 @@ export default connect(
     state => ({
         status: {
             modal: state.base.modal,
+            profile: state.base.auth.get('profile'),
         }
     }),
     dispatch => ({

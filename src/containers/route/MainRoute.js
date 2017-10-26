@@ -1,12 +1,20 @@
 import React, { Component } from 'react';
-import Container from 'components/Common/Container';
+import Main, { LeftColumn, RightColumn, CenterColumn } from 'components/Main/Main';
 
 class MainRoute extends Component {
     render() {
         return (
-            <Container>
-                This is Main Route !
-            </Container>
+            <Main>
+                <LeftColumn>
+                    1
+                </LeftColumn>
+                <CenterColumn>
+                    2
+                </CenterColumn>
+                <RightColumn>
+                    3
+                </RightColumn>
+            </Main>
         );
     }
 }

@@ -6,19 +6,14 @@ const Main = ({children}) => {
   return (
     <Container className="main">
       <Grid>
-        <Grid.Column mobile={16} tablet={8} computer={4}>
-        </Grid.Column>
-        <Grid.Column mobile={16} tablet={8} computer={4}>
-        </Grid.Column>
-        <Grid.Column mobile={16} tablet={8} computer={4}>
-        </Grid.Column>
-        <Grid.Column mobile={16} tablet={8} computer={4}>
-        </Grid.Column>
-        <Grid.Column mobile={16} tablet={8} computer={4}>
-        </Grid.Column>
+        {children}
       </Grid>
     </Container>
   );
 };
+
+export { default as LeftColumn } from './Column/LeftColum';
+export { default as RightColumn } from './Column/RightColumn';
+export { default as CenterColumn } from './Column/CenterColumn';
 
 export default Main;

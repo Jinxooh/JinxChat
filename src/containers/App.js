@@ -7,6 +7,7 @@ import { bindActionCreators } from 'redux';
 // import reducer DUK
 import * as modal from 'redux/modules/base/modal';
 import * as authAction from 'redux/modules/base/auth';
+import * as header from 'redux/modules/base/header';
 
 // load component
 import Header, { BrandLogo, SidebarButton, AuthButton, UserButton, UserMenu } from 'components/Base/Header/Header';
@@ -41,7 +42,6 @@ class App extends Component {
     }
     
     async componentDidMount() {
-        // auth.logout();
         auth.authStateChanged(
             async (firebaseUser) => {
                 const { AuthActions } = this.props;
@@ -65,11 +65,17 @@ class App extends Component {
                     
                 } else {
                     console.log('no login');
+                    storage.remove('profile');
                 }
             }
         )
 
         
+    }
+
+    handleLogout = () => {
+        console.log('test logout');
+        auth.logout();
     }
 
     handleAuth = async (provider) => {
@@ -129,19 +135,31 @@ class App extends Component {
         }
     })();
 
+    handleHeader = (() => {
+        const { HeaderActions } = this.props;
+        return {
+            open: () => {
+                HeaderActions.openUserMenu();
+            },
+            close: () => {
+                HeaderActions.closeUserMenu();
+            }
+        }
+    })();
+
     render() {
-        const { children, status: {modal, profile} } = this.props;
-        const { handleModal, handleAuth, handleLinkAccount } = this;
+        const { children, status: {modal, profile, header} } = this.props;
+        const { handleModal, handleAuth, handleLinkAccount, handleLogout, handleHeader } = this;
         return (
             <div>
                 <Header>
                     <SidebarButton/>
                     <BrandLogo/>
                     {profile.get('username') 
-                    ? <UserButton onClick={() => console.log('fuck')} thumbnail={profile.get('thumbnail')}/>
+                    ? <UserButton onClick={handleHeader.open} thumbnail={profile.get('thumbnail')}/>
                     : <AuthButton onClick={() => handleModal.open({modalName: 'login'})}/>
                     }
-                    <UserMenu />
+                    <UserMenu visible={header.getIn(['userMenu', 'open'])} onHide={handleHeader.close}/>
                 </Header>
                 <LoginModal visible={modal.getIn(['login', 'open'])} onHide={()=> handleModal.close('login')}>
                     <SocialLoginButton onClick={()=>{ handleAuth("github")}} types='github'/>
@@ -166,10 +184,12 @@ export default connect(
         status: {
             modal: state.base.modal,
             profile: state.base.auth.get('profile'),
+            header: state.base.header,
         }
     }),
     dispatch => ({
         ModalActions: bindActionCreators(modal, dispatch),
         AuthActions: bindActionCreators(authAction, dispatch),
+        HeaderActions: bindActionCreators(header, dispatch),
     })
 )(App);

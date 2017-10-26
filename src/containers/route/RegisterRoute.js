@@ -123,7 +123,7 @@ class RegisterRoute extends Component {
 
     render() {
         const { handleRegister, handleValidate, handleChange } = this;
-        const { status: { validation, loading }, form: { value }} = this.props;
+        const { status: { validation, loading, auth  }, form: { value }} = this.props;
         return (
             <div>
                 <Register>
@@ -146,7 +146,7 @@ class RegisterRoute extends Component {
                                 </Message>
                             )
                         }
-                        <Loader />
+                        <Loader visible={!auth.get('profileSync')} />
                     </Content>
                 </Register>
             </div>

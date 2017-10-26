@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+import Container from 'components/Common/Container';
 
 class MainRoute extends Component {
     render() {
         return (
-            <div>
+            <Container>
                 This is Main Route !
-            </div>
+            </Container>
         );
     }
 }

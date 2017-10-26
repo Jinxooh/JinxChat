@@ -1,7 +1,8 @@
 import React from 'react';
 import { Loader as SemanticLoader} from 'semantic-ui-react';
 
-const Loader = () => {
+const Loader = ({visible}) => {
+  if(!visible) return null;
   return (
     <div className="loader-container">
       <SemanticLoader active inverted inline/>

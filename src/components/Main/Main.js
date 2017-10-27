@@ -2,10 +2,10 @@ import React from 'react';
 import Container from 'components/Common/Container';
 import { Card } from 'semantic-ui-react';
 
-const Main = ({children}) => {
+const Main = ({children, hide}) => {
   return (
-    <Container className="main">
-      <Card.Group>
+    <Container className={`main ${hide ? 'hide': ''}`}>
+      <Card.Group className="main">
       {children}
       </Card.Group>
     </Container>

@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
-import Main, 
-{   LeftColumn, 
-    RightColumn, 
-    CenterColumn, 
-    Menu, 
-    Recent, 
-    CardContent,
-} from 'components/Main/Main';
+import Main, { CardContent } from 'components/Main/Main';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 class MainRoute extends Component {
+    
     render() {
+        const { status: { header }} = this.props;
+
         return (
-            <Main>
+            <Main hide={header.getIn(['userMenu', 'open'])}>
                 <CardContent>
                 </CardContent>
                 <CardContent>
@@ -26,5 +24,19 @@ class MainRoute extends Component {
         );
     }
 }
+
+MainRoute = connect(
+    state => ({
+        status: {
+            header: state.base.header,
+        },
+        form: {
+            value: state.form.getIn(['register', 'username'])
+        }
+    }),
+    dispatch => ({
+
+    })
+)(MainRoute);
 
 export default MainRoute;

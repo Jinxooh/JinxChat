@@ -10,3 +10,9 @@
     width: 100%;
   }
 }
+
+.common.container.hide {
+  @include media("<tablet") {
+    display: none;
+  }
+}

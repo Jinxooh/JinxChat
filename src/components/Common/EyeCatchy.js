@@ -19,7 +19,9 @@ class Content extends Component {
         }
     }
 
-    handleClickOutside = () => {
+    handleClickOutside = (e) => {
+        if(e.target.parentElement.className === 'user-button') return;
+        
         const { hide } = this.props;
         hide();
     }

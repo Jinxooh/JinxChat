@@ -149,14 +149,14 @@ class App extends Component {
 
     render() {
         const { children, status: {modal, profile, header} } = this.props;
-        const { handleModal, handleAuth, handleLinkAccount, handleLogout, handleHeader } = this;
+        const { handleModal, handleAuth, handleLinkAccount, handleHeader } = this;
         return (
             <div>
                 <Header>
                     <SidebarButton/>
                     <BrandLogo/>
                     {profile.get('username') 
-                    ? <UserButton onClick={handleHeader.open} thumbnail={profile.get('thumbnail')}/>
+                    ? <UserButton onClick={header.getIn(['userMenu', 'open']) ? handleHeader.close : handleHeader.open} thumbnail={profile.get('thumbnail')}/>
                     : <AuthButton onClick={() => handleModal.open({modalName: 'login'})}/>
                     }
                     <UserMenu visible={header.getIn(['userMenu', 'open'])} onHide={handleHeader.close}/>

@@ -12,22 +12,16 @@ class MainRoute extends Component {
     render() {
         return (
             <Main>
-                <LeftColumn>
-                    <Menu>
-                    </Menu>
-                </LeftColumn>
-                <CenterColumn>
-                    <CardContent>
-                    </CardContent>
-                    <CardContent>
-                    </CardContent>
-                    <CardContent>
-                    </CardContent>
-                </CenterColumn>
-                <RightColumn>
-                    <Recent>
-                    </Recent>
-                </RightColumn>
+                <CardContent>
+                </CardContent>
+                <CardContent>
+                </CardContent>
+                <CardContent>
+                </CardContent>
+                <CardContent>
+                </CardContent>
+                <CardContent>
+                </CardContent>
             </Main>
         );
     }

@@ -1,13 +1,13 @@
 import React from 'react';
 import Container from 'components/Common/Container';
-import { Grid } from 'semantic-ui-react';
+import { Card } from 'semantic-ui-react';
 
 const Main = ({children}) => {
   return (
     <Container className="main">
-      <Grid columns='equal'>
-        {children}
-      </Grid>
+      <Card.Group>
+      {children}
+      </Card.Group>
     </Container>
   );
 };

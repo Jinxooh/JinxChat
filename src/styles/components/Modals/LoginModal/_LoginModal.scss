@@ -1,0 +1,69 @@
+.login-modal-wrapper{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: $z-index-modal;
+    
+    .login-modal {
+        background: $oc-gray-1;
+        width: 30rem;
+        box-shadow: 1px 3px 6px $oc-gray-1;
+
+        .exit {
+            font-size: 1.2rem;
+            position: absolute;
+            right: .7rem;
+            top: .3rem;
+            cursor: pointer;
+            user-select: none;
+            color: white;
+            
+            &:hover {
+                color: $oc-gray-6;
+            }
+            &:active {
+                color: $oc-gray-7;
+            }
+        }
+
+        .logo {
+            line-height: 2rem;
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+            background-color: $oc-teal-7;
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 800;
+            color: white;
+        }
+        .description {
+            text-align: center;
+            margin-top: .5rem;
+            margin-bottom: .5rem;
+            p {
+                margin-bottom: .3rem;
+                font-size: 1.2rem;
+                color: $oc-gray-8;
+            }
+        }
+        .button-wrapper {
+            padding: 2rem;
+            padding-top: .5rem;
+        }
+
+        // setting animation
+        &.flipInX, &.flipOutX{
+            -webkit-animation-duration: .8s;
+            animation-duration: .8s;
+            -webkit-animation-fill-mode: both;
+            animation-fill-mode: both;
+        }
+    }
+    @include media("<desktop") {
+        .login-modal{
+            width: 25rem;
+        }
+    }
+}
+

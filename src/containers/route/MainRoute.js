@@ -1,18 +1,32 @@
 import React, { Component } from 'react';
-import Main, { LeftColumn, RightColumn, CenterColumn } from 'components/Main/Main';
+import Main, 
+{   LeftColumn, 
+    RightColumn, 
+    CenterColumn, 
+    Menu, 
+    Recent, 
+    CardContent,
+} from 'components/Main/Main';
 
 class MainRoute extends Component {
     render() {
         return (
             <Main>
                 <LeftColumn>
-                    1
+                    <Menu>
+                    </Menu>
                 </LeftColumn>
                 <CenterColumn>
-                    2
+                    <CardContent>
+                    </CardContent>
+                    <CardContent>
+                    </CardContent>
+                    <CardContent>
+                    </CardContent>
                 </CenterColumn>
                 <RightColumn>
-                    3
+                    <Recent>
+                    </Recent>
                 </RightColumn>
             </Main>
         );

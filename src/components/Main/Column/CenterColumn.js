@@ -1,10 +1,12 @@
 import React from 'react';
-import { Grid } from 'semantic-ui-react';
+import { Grid, Card } from 'semantic-ui-react';
 
 const CenterColumn = ({children}) => {
   return (
-    <Grid.Column mobile={16} tablet={8} computer={4}>
-    {children}
+    <Grid.Column width={11}>
+      <Card.Group>
+        {children}
+      </Card.Group>
     </Grid.Column>
   );
 };

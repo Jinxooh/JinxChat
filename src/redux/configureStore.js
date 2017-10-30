@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
 import promiseMiddleware from 'redux-promise-middleware';
 
 // load modules
@@ -8,7 +8,7 @@ import register from './modules/register';
 
 /*configure Middleware*/
 const middlewares = [promiseMiddleware()];
-const composeEnhancers = isDevelopment ? (window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() || compose) : compose;
+
 const createStoreWithMiddleware = applyMiddleware( ...middlewares)(createStore);
 
 
@@ -19,6 +19,6 @@ const reducer = combineReducers({
     register,
 });
 
-const configureStore = (initialState) => createStoreWithMiddleware(reducer, initialState, composeEnhancers);
+const configureStore = (initialState) => createStoreWithMiddleware(reducer, initialState, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 export default configureStore;

@@ -112,6 +112,11 @@ class App extends Component {
         }
     }
 
+    handleClickBrandLogo = () => {
+        if(this.context.router.history.location.pathname === '/') return;
+        this.context.router.history.push('/');
+    }
+
     handleLinkAccount = () => {
         const { status : { modal } } = this.props;
         const { handleModal } = this;
@@ -149,12 +154,12 @@ class App extends Component {
 
     render() {
         const { children, status: {modal, profile, header} } = this.props;
-        const { handleModal, handleAuth, handleLinkAccount, handleHeader } = this;
+        const { handleModal, handleAuth, handleLinkAccount, handleHeader, handleClickBrandLogo } = this;
         return (
             <div>
                 <Header>
                     <SidebarButton/>
-                    <BrandLogo/>
+                    <BrandLogo onClick={handleClickBrandLogo}/>
                     {profile.get('username') 
                     ? <UserButton onClick={header.getIn(['userMenu', 'open']) ? handleHeader.close : handleHeader.open} thumbnail={profile.get('thumbnail')}/>
                     : <AuthButton onClick={() => handleModal.open({modalName: 'login'})}/>

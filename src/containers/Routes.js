@@ -6,7 +6,12 @@ import {
 } from 'react-router-dom'
 
 import App from './App';
-import { MainRoute, RegisterRoute } from 'containers/route';
+import { 
+    MainRoute, 
+    RegisterRoute, 
+    ProfileRoute, 
+    SettingRoute 
+} from 'containers/route';
 
 const Routes = () => {
     return (
@@ -16,6 +21,8 @@ const Routes = () => {
                 <Switch>
                     <Route exact path='/' component={MainRoute}></Route>
                     <Route exact path='/register' component={RegisterRoute}></Route>
+                    <Route exact path='/profile' component={ProfileRoute}></Route>
+                    <Route exact path='/setting' component={SettingRoute}></Route>
                 </Switch>
             </div>
         </Router>

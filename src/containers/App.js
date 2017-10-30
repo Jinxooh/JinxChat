@@ -67,6 +67,8 @@ class App extends Component {
                     console.log('no login');
                     storage.remove('profile');
                     AuthActions.syncProfile(null);
+                    if(this.context.router.history.location.pathname !== '/')
+                        this.context.router.history.push('/');
                 }
             }
         )
@@ -150,20 +152,18 @@ class App extends Component {
 
     handleUserMenu = (() => {
         const { handleHeader } = this;
-      
 
         return {
             moveToProfile: () => {
                 handleHeader.close();
-                console.log('go Profile');
+                this.context.router.history.push('/profile');
             },
             moveToSetting: () => {
                 handleHeader.close();
-                console.log('go setting');
+                this.context.router.history.push('/setting');
             },
             logout: () => {
                 handleHeader.close();
-                console.log('go logout');
                 auth.logout();
             },
         }

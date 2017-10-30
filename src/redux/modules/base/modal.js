@@ -15,7 +15,7 @@ const initialState = Map({
         open: false,
     }),
     linkAccount: Map({
-        oepn: false,
+        open: false,
     }),
 });
 

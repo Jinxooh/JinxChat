@@ -66,16 +66,12 @@ class App extends Component {
                 } else {
                     console.log('no login');
                     storage.remove('profile');
+                    AuthActions.syncProfile(null);
                 }
             }
         )
 
         
-    }
-
-    handleLogout = () => {
-        console.log('test logout');
-        auth.logout();
     }
 
     handleAuth = async (provider) => {
@@ -152,9 +148,30 @@ class App extends Component {
         }
     })();
 
+    handleUserMenu = (() => {
+        const { handleHeader } = this;
+      
+
+        return {
+            moveToProfile: () => {
+                handleHeader.close();
+                console.log('go Profile');
+            },
+            moveToSetting: () => {
+                handleHeader.close();
+                console.log('go setting');
+            },
+            logout: () => {
+                handleHeader.close();
+                console.log('go logout');
+                auth.logout();
+            },
+        }
+    })();
+
     render() {
         const { children, status: {modal, profile, header} } = this.props;
-        const { handleModal, handleAuth, handleLinkAccount, handleHeader, handleClickBrandLogo } = this;
+        const { handleModal, handleAuth, handleLinkAccount, handleHeader, handleClickBrandLogo, handleUserMenu } = this;
         return (
             <div>
                 <Header>
@@ -164,7 +181,12 @@ class App extends Component {
                     ? <UserButton onClick={header.getIn(['userMenu', 'open']) ? handleHeader.close : handleHeader.open} thumbnail={profile.get('thumbnail')}/>
                     : <AuthButton onClick={() => handleModal.open({modalName: 'login'})}/>
                     }
-                    <UserMenu visible={header.getIn(['userMenu', 'open'])} onHide={handleHeader.close}/>
+                    <UserMenu 
+                        visible={header.getIn(['userMenu', 'open'])} 
+                        onHide={handleHeader.close} 
+                        displayName={profile.get('displayName')}
+                        handleUserMenu={handleUserMenu}
+                    />
                 </Header>
                 <LoginModal visible={modal.getIn(['login', 'open'])} onHide={()=> handleModal.close('login')}>
                     <SocialLoginButton onClick={()=>{ handleAuth("github")}} types='github'/>

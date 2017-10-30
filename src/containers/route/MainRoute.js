@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Main, { CardContent } from 'components/Main/Main';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 
 class MainRoute extends Component {
     

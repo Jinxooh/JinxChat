@@ -34,7 +34,7 @@ class RegisterRoute extends Component {
     }
 
     componentDidMount() {
-        const { FormActions, status: { auth }} = this.props;
+        const { FormActions } = this.props;
         FormActions.initialize('register');
     }
 

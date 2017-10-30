@@ -1,0 +1,38 @@
+.header-wrapper{
+    z-index: $z-index-header;
+    background-color: $oc-gray-0;
+    height: 4rem;
+    box-shadow: 0px 0px 8px 2px $oc-gray-5;
+    width: 100%;
+    position: fixed;
+
+    .header {
+        position: relative;
+        margin: 0 auto;
+        width: 1000px;
+        height: 4rem;
+        padding-right: 1rem;
+        padding-left: 1rem;
+
+        @import "SidebarButton";
+        @import "BrandLogo";
+        @import "AuthButton";
+        @import "UserButton";
+        @import "UserMenu";
+    }
+    @include media(">wide-desktop") {
+        .header {
+            width: 1200px;
+        }
+    }
+    @include media("<desktop") {
+        .header{
+            width: 100%;
+        }
+    }
+}
+
+.header_spacer {
+    height: 4rem;
+    width: 100%;
+}

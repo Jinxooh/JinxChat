@@ -1,0 +1,18 @@
+.common.container {
+  margin: 0 auto;
+  width: 1000px;
+
+  @include media(">wide-desktop") {
+    width: 1200px;
+  }
+
+  @include media("<desktop") {
+    width: 100%;
+  }
+}
+
+.common.container.hide {
+  @include media("<tablet") {
+    display: none;
+  }
+}

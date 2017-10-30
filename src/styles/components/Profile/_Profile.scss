@@ -1,0 +1,25 @@
+.profile-wrapper {
+  display: flex;
+  width: 600px;
+  
+  @import "ProfileName";
+  @import "ProfilePicture";
+}
+
+.ui.segment.profile-wrapper{
+  margin: 0 auto;
+  margin-top: 0.5rem;
+  padding: 2rem;
+} 
+
+@include media("<=small") {
+  .profile-wrapper{
+      width: 100%;
+  }
+}
+
+@include media("<=medium") {
+  .profile-wrapper{
+      width: 100%;
+  }
+}

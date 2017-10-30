@@ -1,0 +1,21 @@
+{
+  "users": {
+    "profiles": {
+      "uid": {
+        "username": "username",
+        "thumbnail": "http://something/somthing.png",
+        "displayName": "Jinxoo Hwang",
+        "description": "Hi! watsup",
+      },
+    },
+    "settings": {
+      "uid": {
+        "email": "cjswp122@gmail.com"
+      }
+    },
+    "usernames": {
+      "jinxooh": "uid...",
+      "jeckson": "uid...",
+    },
+  },
+}

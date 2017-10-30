@@ -1,0 +1,29 @@
+.content{
+    position: relative;
+    
+    h1 {
+        color: black;
+        
+    }
+    padding: 1rem 3rem;
+    text-align: left;
+    color: $oc-gray-6;
+    p {
+        font-size: 1rem;
+        b{
+            color: $oc-gray-8;
+            font-size: 1.3rem;
+        }
+    }
+
+    @import "InputNickName";
+
+    @include media("<desktop"){
+        p {
+            font-size: 0.8rem;
+            b{
+                font-size: 1rem;
+            }
+        }
+    }
+ }

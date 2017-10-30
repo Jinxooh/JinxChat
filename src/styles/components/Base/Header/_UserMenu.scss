@@ -1,0 +1,91 @@
+.user-menu-wrapper {
+    z-index: $z-index-user-menu;
+    transition: all 0.5s;
+    position: absolute;
+    top: 4rem;
+    right: 12.5rem;
+    .user-menu {
+        position: absolute;
+        width: 12rem;
+        line-height: 20px;
+        font-size: 14px;
+        text-align: center;
+        color: $oc-gray-7;
+        background: rgb(255, 255, 255);
+        border-radius: 3px;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+
+        .menu-item{
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            user-select: none;
+            font-weight: 500;
+            text-align: left;
+
+            .menu-name {
+                .icon{
+                    font-size: 1.3rem; 
+                    line-height: 1.3rem;
+                    margin-right: 0.5rem;
+                    margin-top: 0.2rem;
+                }
+                span {
+                    line-height: 1.3rem;
+                }
+            }
+            
+            .description {
+                margin-left: 2.1rem;
+                margin-top: 0.1rem;
+            }
+
+            &:hover {
+                background: $oc-teal-5;
+                color: white;
+            }
+
+            &:active {
+                background: $oc-teal-6;
+            }
+        }
+
+        .menu-item +  .menu-item{
+            border-top: 1px solid $oc-gray-3;
+        }
+    }
+
+    .user-menu:after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-width: 0.5rem;
+        border-style: solid;
+        border-color: transparent transparent #000000 transparent;
+        top: -1rem;
+        right: 1.2rem;
+    } 
+
+    &.flipInX, &.flipOutX{
+        -webkit-animation-duration: .7s;
+        animation-duration: .7s;
+        -webkit-animation-fill-mode: both;
+        animation-fill-mode: both;
+    }
+}
+
+@include media("<tablet") {
+    
+    .user-menu-wrapper {
+        left: 0;
+        width: 100%;
+
+        .user-menu {
+            width: 100%;
+        }
+
+        .user-menu:after {
+            right: 1.7rem;
+        }
+    }
+}

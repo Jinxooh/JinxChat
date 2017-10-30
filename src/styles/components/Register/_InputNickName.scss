@@ -1,0 +1,29 @@
+.input-nickname{
+    margin-top: 2.5rem;
+    margin-bottom: 2rem;
+    .input {
+        width: 100%;
+    }
+    .button {
+        font-size: 1.2rem;
+    }
+
+    @include media('≥desktop') {
+        .input {
+            width: 50%;
+            font-size: 1rem;
+        }
+        .button {
+            font-size: 1rem;
+        }
+    }
+
+    @include media("<desktop") {
+        .input {
+            font-size: 0.5rem;
+        }
+        .button {
+            font-size: 0.5rem;
+        }
+    }
+}
